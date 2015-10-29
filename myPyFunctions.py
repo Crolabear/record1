@@ -132,3 +132,46 @@ def xValidate2(trainSet,prop, loop1):
     
     
     return record
+
+
+
+
+
+def findDistance(ar1,ar2):
+    count = 0
+    for i in range(len(ar1)):
+        count = count + abs(int(ar1[i]) - int(ar2[i]))
+    return count
+
+
+def digitKNN(trainList,inputSet):
+    
+    from collections import Counter
+    
+    
+    n = len(trainSet)
+    test1Size = int(prop*n)
+    
+    ranInd = np.random.permutation(range(n))
+    testInd = ranInd[0:test1Size]
+    trainInd = ranInd[test1Size:n]
+    
+    X = []
+    for item in trainInd:
+        X.append(trainSet[item])
+    #X = trainNew[:-test1Size:][names]
+    result = []
+    for item1 in inputSet:
+        tempDis = map(lambda x:findDistance(x,item1),X)
+        cutoff = 2*sorted(tempDis)[3]
+        tempVote = []
+        for i in range(test1Size):
+            if tempDis[i] < cutoff:
+                tempVote.append(Ycheck[i])
+        data = Counter(tempVote)
+        result.append(data.most_common()[0])
+    
+    result2 = []
+    for item in result:
+        result2.append(item[0])
+    return result2

@@ -175,3 +175,22 @@ def digitKNN(trainList,inputSet):
     for item in result:
         result2.append(item[0])
     return result2
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~
+# does a google search result scrape by calling this external php file called sca1.php
+def do_the_search_part2(multiPart):
+    import requests
+    import urllib
+    from lxml import html
+    import sys
+    import collections
+    import string
+    import os
+    from subprocess import call
+    
+    # multipart is a string with spaces. example: Hello world.
+    # i will then replace the space with a plus so that we can use it in a query
+    value = multiPart.replace(' ','+')
+        value='%22'+str(value)+'%22'
+            os.system("php sca1.php %s"%(value))

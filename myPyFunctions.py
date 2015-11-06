@@ -194,3 +194,11 @@ def do_the_search_part2(multiPart):
     value = multiPart.replace(' ','+')
         value='%22'+str(value)+'%22'
             os.system("php sca1.php %s"%(value))
+
+
+def removeHTMLtag(st):
+    import re
+    tag_RE = re.compile(r'<[^>]+>')
+    st1 = str(st)
+    return tag_RE.sub('', st1)
+

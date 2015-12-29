@@ -47,6 +47,28 @@ def stringVowels(NameStr1):
 
 
 
+def putSoundsTogether(firstNameS,lastNameS,numFirst,numLast):
+    nF = len(firstNameS)
+    nL = len(lastNameS)
+    
+    genFirst = ''
+    for item in range(numFirst):
+        ind = random.randint(0,nF-1)
+        genFirst = genFirst+firstNameS[ind]
+
+    genLast = ''
+    for item in range(numLast):
+        ind = random.randint(0,nL-1)
+        genLast = genLast+lastNameS[ind]
+    
+    az = 'bcdfghjklmnpqrstvwxyz '
+    f = random.randint(0,21)
+    l = random.randint(0,21)
+
+    print (genFirst+az[f],genLast+az[l])
+    return (genFirst+az[f],genLast+az[l])
+
+
 
 
 def main():
@@ -68,13 +90,27 @@ def main():
     print newName
 
 #~~~~~~~ up next we have vowel extraction;
+    print '~~~~ next section is to generate random syllable to form names ~~~~~~'
 
     lastNameV=map(lambda x:stringVowels(x),LLast)
     firstNameV =map(lambda x:stringVowels(x),CFirst)   # takes a while tho. need a way to optimize the extraction code
 
 # then i can put those together however way i want to do it.  TBC
 
+    firstNameSound = map(lambda x:stringVowels(x),CFirst)
+    lastNameSound = map(lambda x:stringVowels(x),LLast)
+    
+    fNameTogether = []
+    for item in firstNameSound:
+        fNameTogether = fNameTogether+item
+    
+    lNameTogether = []
+    for item in lastNameSound:
+        lNameTogether = lNameTogether + item
+    fNameTogetherS = list(set(fNameTogether))
+    lNameTogetherS = list(set(lNameTogether))
 
+    putSoundsTogether(fNameTogetherS,lNameTogetherS,3,2)
 
 
 

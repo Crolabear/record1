@@ -42,7 +42,7 @@ def removeDup(tuple1,tuple2):
 #        if item2 not in tuple1:
 #            temp.append(item2)
 
-    return (count,newT1,newT2)
+    return (count,newT1,newT2)  # only returns the unique elements
 
 
 def simplifyFraction(topT,botT):
@@ -62,34 +62,54 @@ def simplifyFraction(topT,botT):
 
 
 
+def combineTopBot(topTuple,botTuple):
+    topList = map(tuple,itertools.permutations(topTuple))
+    botList = map(tuple,itertools.permutations(botTuple))
+    g = [(x, y) for x in topList for y in botList]   # this produce the cross product of the two lists.
+    #g = ((x, y) for x in topList for y in botList)   
+    return g
+	# this produce the cross product of the two lists, but as a generator
+	
+
+# the problem is i dont know how to access the elements.
+
+
+def checkDigitInNumber(digitList,NumberStr):
+	count = 0
+	for item in digitList:
+		if str(item) in str(NumberStr):
+			count = count + 1
+	result = 0
+	if count == len(digitList):
+		result = 1
+	return result
+
 
 
 def checkFraction(topTuple,botTuple):
-    checkCommon = removeDup(topTuple,botTuple)
-    if checkCommon[0] == 0:  # that means no common digits
+    checkCommonTop = removeDup(topTuple,botTuple) # make sure topTUple is the same length as the bot tuple
+    result = []
+    if checkCommonTop[0] == len(topTuple):  # that means no common digits
         return (0,0) # this means we dont have any cancellation we can use. not the fraction we are looking for.
     else:  # if we do have some common digits, we can proceed.
-        uniBot = removeDup(botTuple,topTuple) # need to run it again b/c need to obtain the unique on the bottom
-        topList = map(tuple,itertools.permutations(topTuple))
-        botList = map(tuple,itertools.permutations(botTuple))
-        for L1 in topList:
-            for L2 in botList:
-                temp = simplifyFraction(L1,L2)
-                dup = removeDup(L1,L2)
-                count4Top = 0
-                count4Bot = 0
-                for item1 in dup[1]:
-                    if str(item1) in str(temp[0]):
-                        count4Top = count4Top + 1
-                for item2 in dup[2]:
-                    if str(item2) in str(temp[1]):
-                        count4Bot = count4Bot + 1
-                if (count4Bot == len(dup[2]) and count4Top == len(dup[1])):
-                    print temp,L1,L2
-                    return (temp)
-                else:
-                    return 'not work'
-
+        crossProduct1 = combineTopBot(topTuple,botTuple)
+        #print crossProduct1    
+        r1 = map(lambda x:simplifyFraction(x[0],x[1]),crossProduct1)
+        
+        # create a dictionary that connects the simplified fraction and the tuple:
+        dict1 = {}
+        for i in range(len(r1)):
+        	dict1[r1[i]] = crossProduct1[i]
+        	
+        for item2 in r1:
+    		t1 = checkDigitInNumber(checkCommonTop[1],item2[0])
+    		#print t1
+    		b1 = checkDigitInNumber(checkCommonTop[2],item2[1])
+#     		print b1*t1
+    		if (t1*b1) == 1:
+    			result.append(dict1[item2])
+    return result
+    			
 
 
 

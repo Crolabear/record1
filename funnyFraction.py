@@ -113,19 +113,100 @@ def checkFraction(topTuple,botTuple):
 
 
 
-def main(sizeFraction):
-    count =0
-    combDigits=scrambleNumber(sizeFraction)
-    for item1 in combDigits:
-        for item2 in combDigits:
-            if item1 != item2:
-                a=checkFraction(item1,item2)
-#                if a != (0,0):
-#                  print a
-                count = count + 1
-                if count > 10000:
-                    break;
-    return 0
+def restorDigit2Number(tuple1):
+	a=0
+	n = len(tuple1)
+	for i in range(n):
+		a=a+(10**i)*tuple1[i]
+	return a
 
 
+def isSubset(bigNum,shortNum):
+	a = str(bigNum)
+	count = 0
+	for item in str(shortNum):
+		if item in a:
+			count = count + 1
+	if count == len(str(shortNum)):
+		return 1
+	else:
+		return 0
 
+def findSharedDigits(num1,num2):
+	count =0
+	for item in str(num1):
+		if item in str(num2):
+			count = count + 1
+	if count > 0:
+		return 1
+	else:
+		return 0
+
+
+def removeSharedDigits(num1,num2):
+	shared = []
+	a = str(num1)
+	b = str(num2)
+	for item in a:
+		if item in b:
+			shared.append(item)
+	for item1 in b:
+		if item1 in a:
+			shared.append(item1)
+	shared1 = list(set(shared))
+	a1 = a
+	b1 = b
+	for item2 in shared1:
+		a1=a1.replace(item2,'')
+		b1=b1.replace(item2,'')
+	if a1 == '' or b1 =='':
+		a1 = 0
+		b1 = 0
+	
+	return (int(a1),int(b1))
+
+# it looks like checking digit doesn't work.
+# let's do brute force it
+
+
+def bruteForce(sizeFraction):
+	begin = 10**(sizeFraction - 1)
+	end = 10 ** (sizeFraction)
+	list1 = range(begin, end)
+	# maybe we want to edit this to remove numbers containing 0?
+	
+	xproduct1 = []
+	xproduct = list(itertools.product(list1,list1))
+	for item in xproduct:
+		if (item[0] < item[1]) and (item[1]%10 >0):
+			test = findSharedDigits(item[0],item[1])
+			if test == 1:
+				xproduct1.append(item)
+	# only consider numbers with shared digit
+	
+	# then I want to divide and find the 
+	GCF=map(lambda x:EulerAlgo(x[0],x[1]),xproduct1)
+	
+	result = []
+	for i in range(len(GCF)):
+		if GCF[i] != 1:
+			t1 = xproduct1[i][0]/GCF[i]
+			b1 = xproduct1[i][1]/GCF[i]
+			
+			simtop,simbot = removeSharedDigits(xproduct1[i][0],xproduct1[i][1])
+			a1=isSubset(simtop,t1) 
+			a2=isSubset(simbot,b1)
+			#a1=isSubset(xproduct1[i][0],t1)
+			#a2=isSubset(xproduct1[i][1],b1)
+			if a1*a2 == 1:
+				result.append(xproduct1[i])
+				print xproduct1[i]
+	return result
+	
+	
+	
+	
+	
+	
+	
+	

@@ -131,6 +131,20 @@ def isSubset(bigNum,shortNum):
 		return 1
 	else:
 		return 0
+		
+def isExactMatch(bigNum,shortNum):
+	a = []
+	b=[]
+	for item in str(bigNum):
+		a.append(item)
+	for item2 in str(shortNum):
+		b.append(item2)
+	a.sort()
+	b.sort()
+	if a == b:
+		return 1
+	else:
+		return 0		
 
 def findSharedDigits(num1,num2):
 	count =0
@@ -194,8 +208,10 @@ def bruteForce(sizeFraction):
 			b1 = xproduct1[i][1]/GCF[i]
 			
 			simtop,simbot = removeSharedDigits(xproduct1[i][0],xproduct1[i][1])
-			a1=isSubset(simtop,t1) 
-			a2=isSubset(simbot,b1)
+			a1 = isExactMatch(simtop,t1)
+			a2 = isExactMatch(simbot,b1)
+			#a1=isSubset(simtop,t1) 
+			#a2=isSubset(simbot,b1)
 			#a1=isSubset(xproduct1[i][0],t1)
 			#a2=isSubset(xproduct1[i][1],b1)
 			if a1*a2 == 1:
@@ -204,6 +220,7 @@ def bruteForce(sizeFraction):
 	return result
 	
 	
+
 	
 	
 	

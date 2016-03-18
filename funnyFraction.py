@@ -1,4 +1,5 @@
 import itertools
+import csv
 
 #def generateNumbers(number_unique):
 	
@@ -221,9 +222,33 @@ def bruteForce(sizeFraction):
 	
 	
 
+
+def notBoringFraction():
+
+	numbers = range(1,30)
 	
+	# generate ordered pairs of numerator and denominator
+	Frac1 = map(tuple,itertools.combinations(numbers,2))
+	Frac2 = Frac1
+	g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
+	gbackup = g
+	summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
+	GCFz = map(lambda z: EulerAlgo(z[0],z[1]),summed)
+	result = []	
+	for i in range(len(g)):
+# 		print g[i]
+		if GCFz[i] > 0:
+			simplifiedbot=summed[i][1]/GCFz[i]
+			n1 = EulerAlgo(g[i][0][1],g[i][1][1])
+ 			if simplifiedbot != summed[i][1]/n1:
+ 				result.append(gbackup[i])
+ 	return result
+#  				print g[i]
 	
+# make the list
+g2 = notBoringFraction()
+g3 = map(lambda x:"%d / %d + %d / %d" %(x[0][0],x[0][1],x[1][0],x[1][1]),g2)
 	
-	
-	
-	
+with open('steveBoringFraction.txt','w') as f:
+	for item in g3:
+		f.write('\n'+item)

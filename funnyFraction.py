@@ -224,25 +224,31 @@ def bruteForce(sizeFraction):
 
 
 def notBoringFraction():
-
-	numbers = range(1,30)
+  numbers = range(1,50)
 	
 	# generate ordered pairs of numerator and denominator
-	Frac1 = map(tuple,itertools.combinations(numbers,2))
-	Frac2 = Frac1
-	g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
-	gbackup = g
-	summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
-	GCFz = map(lambda z: EulerAlgo(z[0],z[1]),summed)
-	result = []	
-	for i in range(len(g)):
-# 		print g[i]
-		if GCFz[i] > 0:
-			simplifiedbot=summed[i][1]/GCFz[i]
-			n1 = EulerAlgo(g[i][0][1],g[i][1][1])
- 			if simplifiedbot != summed[i][1]/n1:
- 				result.append(gbackup[i])
- 	return result
+  Frac1All = map(tuple,itertools.combinations(numbers,2))
+  Frac1 = []
+  for item1 in Frac1All:
+    re1 = EulerAlgo(item1[0],item1[1])
+    if re1 == 1:
+      Frac1.append(item1)
+    
+  Frac2 = Frac1
+  g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
+        
+  gbackup = g
+  summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
+  GCFz = map(lambda z: EulerAlgo(z[0],z[1]),summed)
+  result = []
+  for i in range(len(g)):
+# print g[i]
+    if GCFz[i] > 0:
+      simplifiedbot=summed[i][1]/GCFz[i]
+      n1 = EulerAlgo(g[i][0][1],g[i][1][1])
+      if simplifiedbot != summed[i][1]/n1:
+        result.append(gbackup[i])
+  return result
 #  				print g[i]
 	
 # make the list

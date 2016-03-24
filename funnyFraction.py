@@ -229,14 +229,25 @@ def notBoringFraction():
 	# generate ordered pairs of numerator and denominator
   Frac1All = map(tuple,itertools.combinations(numbers,2))
   Frac1 = []
+  
+  # loop over this once to remove all non-reduced fractions
   for item1 in Frac1All:
     re1 = EulerAlgo(item1[0],item1[1])
     if re1 == 1:
       Frac1.append(item1)
-    
+
+  g = []
   Frac2 = Frac1
-  g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
-        
+  for i1 in Frac1:
+    for i2 in Frac2:
+# need to check denominators are not co-prime or multiple of each other
+      denom = EulerAlgo(i1[1],i2[1])
+      if denom not in (1,i1[1],i2[1]):
+        g.append((i1,i2))
+              
+
+#  g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
+
   gbackup = g
   summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
   GCFz = map(lambda z: EulerAlgo(z[0],z[1]),summed)

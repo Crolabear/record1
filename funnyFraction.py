@@ -223,7 +223,7 @@ def bruteForce(sizeFraction):
 	
 
 
-def notBoringFraction():
+def notBoringFraction(signz):
   numbers = range(1,50)
 	
 	# generate ordered pairs of numerator and denominator
@@ -249,7 +249,13 @@ def notBoringFraction():
 #  g = [(x, y) for x in Frac1 for y in Frac2]   # this produce the cross product of the two lists.
 
   gbackup = g
-  summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
+
+  if signz == '-':
+    summed = map(lambda z: (z[0][0]*z[1][1]-z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
+  else:
+    signz = '+'
+    summed = map(lambda z: (z[0][0]*z[1][1]+z[0][1]*z[1][0],z[0][1]*z[1][1]),g)
+
   GCFz = map(lambda z: EulerAlgo(z[0],z[1]),summed)
   result = []
   for i in range(len(g)):
@@ -263,9 +269,15 @@ def notBoringFraction():
 #  				print g[i]
 	
 # make the list
-g2 = notBoringFraction()
-g3 = map(lambda x:"%d / %d + %d / %d" %(x[0][0],x[0][1],x[1][0],x[1][1]),g2)
-	
-with open('steveBoringFraction.txt','w') as f:
-	for item in g3:
-		f.write('\n'+item)
+signz = '+'
+g2 = notBoringFraction(signz)
+g3 = map(lambda x:"%d / %d %s %d / %d" %(x[0][0],x[0][1],signz,x[1][0],x[1][1]),g2)
+
+if signz == '+':
+  with open('steveBoringFraction.txt','w') as f:
+    for item in g3:
+      f.write('\n'+item)
+if signz == '-':
+  with open('steveBoringSubtract.txt','w') as f:
+    for item in g3:
+      f.write('\n'+item)

@@ -52,10 +52,14 @@ def produceExpression(term1,term2):
 # checking the 2 fractions have different denominator, or denominators taht are not multiple of each other.
   for f1 in term1:
     for f2 in term2:
-      fac1 = EulerAlgo(f1[1][0],f2[1][0])
-      fac2 = EulerAlgo(f1[1][1],f2[1][1])
-      if fac1 != fac2:
-        sum1.append((f1,f2))
+      if f1 != f2:
+        fac1 = EulerAlgo(f1[1][0],f2[1][0])
+        fac2 = EulerAlgo(f1[1][1],f2[1][1])
+        #g1 = f2[1][0]/f1[1][0]
+      #g2 = f2[1][1]/f1[1][1]
+      #if g1 != g2:
+        if fac1 != fac2:
+          sum1.append((f1,f2))
   return sum1
 
 

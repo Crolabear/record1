@@ -1,6 +1,7 @@
+from __future__ import division
 import itertools
 import csv
-from __future__ import division
+import sys
 
 #def generateNumbers(number_unique):
 
@@ -53,18 +54,22 @@ def produceExpression(term1,term2):
   for f1 in term1:
     for f2 in term2:
       if f1 != f2:
-        fac1 = EulerAlgo(f1[1][0],f2[1][0])
-        fac2 = EulerAlgo(f1[1][1],f2[1][1])
-        #g1 = f2[1][0]/f1[1][0]
-      #g2 = f2[1][1]/f1[1][1]
-      #if g1 != g2:
-        if fac1 != fac2:
+        #fac1 = EulerAlgo(f1[1][0],f2[1][0])
+        #fac2 = EulerAlgo(f1[1][1],f2[1][1])
+        g1 = f2[1][0]*f1[1][1]
+        g2 = f2[1][1]*f1[1][0]
+        if g1 != g2:
+      #if fac1 != fac2:
           sum1.append((f1,f2))
   return sum1
 
 
-linearTerm = generateLinear(10,20)
-fr1 = produceFraction(9,linearTerm)
+linearPoss = int(sys.argv[1])
+quadraPoss = int(sys.argv[2])
+numeratorPoss = int(sys.argv[3])
+
+linearTerm = generateLinear(linearPoss,quadraPoss)
+fr1 = produceFraction(numeratorPoss,linearTerm)
 sum1 = produceExpression(fr1,fr1)
 
 
@@ -91,6 +96,7 @@ def doTheMath(sum1):
     res1 = addPoly(item[0],item[1])
     zeroz = solveLinear(res1[0])
     rootcheck = zeroz*zeroz*res1[1][2]+zeroz*res1[1][1]+res1[1][0]
+    #print rootcheck
     if rootcheck == 0:
       exactRoot.append(item)
     if abs(rootcheck) < 0.00001 and abs(rootcheck) > 0 :
@@ -106,6 +112,7 @@ for item in AllMath[0]: # AllMath[0] has all the exact roots, aka reduciable
   st2 = '%d / (%d + %dX) + %d / (%d + %dX)' %(item[0][0],item[0][1][0],item[0][1][1],item[1][0],item[1][1][0],item[1][1][1])
   st1.append(st2)
 
+print 'Done'
 
 with open('steveLinearFraction.txt','w') as f:
   for item in st1:

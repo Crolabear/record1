@@ -264,14 +264,42 @@ def notBoringFraction(signz):
       simplifiedbot=summed[i][1]/GCFz[i]
       n1 = EulerAlgo(g[i][0][1],g[i][1][1])
       if simplifiedbot != summed[i][1]/n1:
-        result.append(gbackup[i])
+        simplifiedTop = summed[i][0]/GCFz[i]
+        result.append((gbackup[i],(simplifiedTop,simplifiedbot)))
   return result
 #  				print g[i]
 	
 # make the list
 signz = '+'
 g2 = notBoringFraction(signz)
-g3 = map(lambda x:"%d / %d %s %d / %d" %(x[0][0],x[0][1],signz,x[1][0],x[1][1]),g2)
+
+def getCertainFraction(valueNumerator, valueDenominator,fractionList):
+  g4 = []
+  temp = (valueNumerator,valueDenominator)
+  for item in fractionList:
+      if temp == item[1]:
+        g4.append(item)
+  return g4
+
+
+
+
+g3 = map(lambda x:"%d / %d %s %d / %d" %(x[0][0][0],x[0][0][1],signz,x[0][1][0],x[0][1][1]),g2)
+certainOne = map(lambda x:"%d / %d %s %d / %d" %(x[0][0][0],x[0][0][1],signz,x[0][1][0],x[0][1][1]),g4)
+
+allAnswers = {}
+for item in g2:
+  if item[1] not in allAnswers.keys():
+    allAnswers[item[1]] = 1
+  else:
+    allAnswers[item[1]] = allAnswers[item[1]]+ 1
+
+sortedAnswer = []
+for item in allAnswers.keys():
+  for temp  in item[0]
+
+
+#g3 = map(lambda x:"%d / %d %s %d / %d" %(x[0][0],x[0][1],signz,x[1][0],x[1][1]),g2)
 
 if signz == '+':
   with open('steveBoringFraction.txt','w') as f:
@@ -281,3 +309,10 @@ if signz == '-':
   with open('steveBoringSubtract.txt','w') as f:
     for item in g3:
       f.write('\n'+item)
+
+with open('allAnswers.txt','w') as f:
+  for item1 in sorted(allAnswers.keys()):
+    f.write('\n'+str(item1[0])+','+str(item1[1]))
+
+
+
